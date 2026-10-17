@@ -3,6 +3,22 @@
 App de demostración con **5 pantallas** (Login, Menú, Listar productos, Registrar producto y Perfil).
 El alcance es solo **front y navegación**: no hay base de datos ni lógica de negocio.
 
+## Demostración
+
+![Recorrido de navegación](docs/navegacion.gif)
+
+## Capturas
+
+| Login | Menú | Listar productos |
+|:---:|:---:|:---:|
+| <img src="docs/capturas/01-login.png" width="220" alt="Login"> | <img src="docs/capturas/02-menu.png" width="220" alt="Menú"> | <img src="docs/capturas/04-listar-productos.png" width="220" alt="Listar productos"> |
+| `/login` | `/menu` | `/products` |
+
+| Registrar producto | Perfil |
+|:---:|:---:|
+| <img src="docs/capturas/03-registrar-producto.png" width="220" alt="Registrar producto"> | <img src="docs/capturas/05-perfil.png" width="220" alt="Perfil"> |
+| `/products/register` | `/profile` |
+
 ## Capacidades trabajadas
 
 | Capacidad | Dónde verla |
@@ -53,4 +69,4 @@ Pruebas: `flutter test`
 ## Entrega
 
 - Repositorio: https://github.com/jort-tec-snt/damp-lab7_8
-- Capturas de pantalla: _(agregar aquí las 5 pantallas)_
+- Capturas y GIF: carpeta `docs/` (se muestran arriba)
