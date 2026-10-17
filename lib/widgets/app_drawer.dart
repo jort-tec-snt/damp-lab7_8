@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../data/app_data.dart';
-import '../routes/app_routes.dart';
 import '../theme/app_theme.dart';
 
 /// Menú lateral (el icono de hamburguesa de la AppBar).
