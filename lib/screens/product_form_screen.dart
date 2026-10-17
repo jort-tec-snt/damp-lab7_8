@@ -18,44 +18,69 @@ class ProductFormScreen extends StatelessWidget {
         children: [
           // Zona para elegir imagen (solo diseño).
           InkWell(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
             onTap: () => showDemoMessage(
               context,
               'Seleccionar imagen no forma parte de este laboratorio',
             ),
             child: Container(
-              height: 140,
+              height: 150,
               decoration: BoxDecoration(
                 color: AppTheme.fieldFill,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
+                border: const Border.fromBorderSide(
+                  BorderSide(color: Color(0xFFD0D5DD)),
+                ),
               ),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.photo_camera_outlined, size: 44, color: Colors.grey),
-                  SizedBox(height: 8),
-                  Text('Seleccionar imagen',
-                      style: TextStyle(color: Colors.black54)),
+                  CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.photo_camera_outlined,
+                      size: 30,
+                      color: AppTheme.primary,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Seleccionar imagen',
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
+          const Text(
+            'Datos del producto',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
           const TextField(
             textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(hintText: 'Nombre del producto'),
+            decoration: InputDecoration(
+              hintText: 'Nombre del producto',
+              prefixIcon: Icon(Icons.inventory_2_outlined),
+            ),
           ),
           const SizedBox(height: 12),
           const TextField(
             maxLines: 2,
             textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(hintText: 'Descripción'),
+            decoration: InputDecoration(
+              hintText: 'Descripción',
+              prefixIcon: Icon(Icons.notes_outlined),
+            ),
           ),
           const SizedBox(height: 12),
           const TextField(
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               hintText: 'Precio',
+              prefixIcon: Icon(Icons.payments_outlined),
               suffixIcon: Center(
                 widthFactor: 1,
                 child: Padding(
@@ -68,7 +93,10 @@ class ProductFormScreen extends StatelessWidget {
           const SizedBox(height: 12),
           const TextField(
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(hintText: 'Stock'),
+            decoration: InputDecoration(
+              hintText: 'Stock',
+              prefixIcon: Icon(Icons.numbers),
+            ),
           ),
           const SizedBox(height: 24),
           ElevatedButton(

@@ -42,12 +42,26 @@ class ProductListScreen extends StatelessWidget {
                 filled: true,
                 fillColor: AppTheme.fieldFill,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: BorderRadius.all(Radius.circular(14)),
                   borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: BorderRadius.all(Radius.circular(14)),
                   borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          // Cantidad de elementos de la lista.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${_products.length} productos',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black54,
                 ),
               ),
             ),
@@ -57,6 +71,7 @@ class ProductListScreen extends StatelessWidget {
             // [NUEVO] ListView.builder: construye solo las filas visibles,
             // ideal para listas largas.
             child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 16),
               itemCount: _products.length,
               itemBuilder: (context, index) =>
                   _ProductTile(product: _products[index]),
@@ -78,14 +93,14 @@ class _ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         // leading: lo que aparece al inicio de la fila (imagen / icono).
         leading: Container(
           width: 56,
           height: 56,
           decoration: BoxDecoration(
             color: AppTheme.primarySoft,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
           child: Icon(product.icon, size: 32, color: AppTheme.primary),
         ),
@@ -93,22 +108,62 @@ class _ProductTile extends StatelessWidget {
           product.name,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        // subtitle: segunda línea; isThreeLine reserva altura para dos líneas.
-        subtitle: Text('Precio: ${product.priceLabel}\nStock: ${product.stock}'),
-        isThreeLine: true,
+        // subtitle: segunda línea; aquí lleva el precio y una etiqueta de stock.
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Precio: ${product.priceLabel}'),
+              const SizedBox(height: 6),
+              _StockBadge(stock: product.stock),
+            ],
+          ),
+        ),
         // trailing: lo que aparece al final (menú de tres puntos).
         trailing: PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'edit') {
               Navigator.pushNamed(context, AppRoutes.registerProduct);
             } else {
-              showDemoMessage(context, 'Eliminar no forma parte de este laboratorio');
+              showDemoMessage(
+                context,
+                'Eliminar no forma parte de este laboratorio',
+              );
             }
           },
           itemBuilder: (context) => const [
             PopupMenuItem(value: 'edit', child: Text('Editar')),
             PopupMenuItem(value: 'delete', child: Text('Eliminar')),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Etiqueta de color según el stock (solo presentación): naranja si es bajo.
+class _StockBadge extends StatelessWidget {
+  const _StockBadge({required this.stock});
+
+  final int stock;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isLow = stock < 10;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      decoration: BoxDecoration(
+        color: isLow ? const Color(0xFFFFF1E0) : const Color(0xFFE6F6EC),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        'Stock: $stock',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: isLow ? const Color(0xFFB45309) : const Color(0xFF15803D),
         ),
       ),
     );
