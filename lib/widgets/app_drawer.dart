@@ -11,51 +11,59 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // [NUEVO] Nombre de la ruta actual, para no abrir de nuevo la misma pantalla.
+    // [NUEVO] Nombre de la ruta actual, para no abrir de nuevo la misma pantalla
+    // y para resaltar la opción donde ya estamos.
     final String? currentRoute = ModalRoute.of(context)?.settings.name;
 
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: AppTheme.primary),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          // Cabecera con degradado y los datos del usuario.
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(gradient: AppTheme.headerGradient),
+            currentAccountPicture: const CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.person, size: 36, color: AppTheme.primary),
             ),
+            accountName: Text(
+              userProfile['nombre']!,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            accountEmail: Text(userProfile['email']!),
           ),
           for (final Map<String, dynamic> option in menuOptions)
-            ListTile(
-              leading: Icon(
-                option['icon'] as IconData,
-                color: option['isLogout'] == true ? Colors.red : null,
-              ),
-              title: Text(option['title'] as String),
-              onTap: () {
-                Navigator.pop(context); // Cierra el Drawer.
-                final String route = option['route'] as String;
-                if (option['isLogout'] == true) {
-                  // [NUEVO] Borra todo el historial y vuelve al login.
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    route,
-                    (_) => false,
-                  );
-                } else if (route != currentRoute) {
-                  Navigator.pushNamed(context, route);
-                }
-              },
-            ),
+            _buildTile(context, option, currentRoute),
         ],
       ),
+    );
+  }
+
+  Widget _buildTile(
+    BuildContext context,
+    Map<String, dynamic> option,
+    String? currentRoute,
+  ) {
+    final String route = option['route'] as String;
+    final bool isLogout = option['isLogout'] == true;
+
+    return ListTile(
+      leading: Icon(
+        option['icon'] as IconData,
+        color: isLogout ? Colors.red : null,
+      ),
+      title: Text(option['title'] as String),
+      selected: route == currentRoute,
+      selectedTileColor: AppTheme.primarySoft,
+      onTap: () {
+        Navigator.pop(context); // Cierra el Drawer.
+        if (isLogout) {
+          // [NUEVO] Borra todo el historial y vuelve al login.
+          Navigator.pushNamedAndRemoveUntil(context, route, (_) => false);
+        } else if (route != currentRoute) {
+          Navigator.pushNamed(context, route);
+        }
+      },
     );
   }
 }
